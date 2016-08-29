@@ -3,11 +3,14 @@ package edu.depaul.iceburg.maincontroller;
 
 import edu.depaul.iceburg.events.TouchEvent;
 
+import lombok.ToString;
+
 
 /**
  * Class which represents that a local sensor on an iceberg is currently
  * being touched.
  */
+@ToString
 public class TouchedState extends AbstractState {
 
     public TouchedState(String iceburgId, Integer sensorNumber ) {

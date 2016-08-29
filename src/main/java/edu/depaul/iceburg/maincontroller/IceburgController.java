@@ -8,6 +8,9 @@ import edu.depaul.iceburg.events.TouchEvent;
 
 import edu.depaul.iceburg.events.rabbitmq.RabbitMQEventHub;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -15,13 +18,9 @@ import java.util.Map;
 
 
 /**
- * Created by jwatts on 8/28/16.
+ * Application class of the Iceburg Controller
  */
 public class IceburgController {
-
-    private String icebergId;
-
-    private Integer numberOfSensors;
 
     private static final String EVENTS_EXCHANGE = "events";
 
@@ -31,22 +30,25 @@ public class IceburgController {
 
     private RabbitMQEventHub eventHub;
 
+    private final Logger logger;
+
     public IceburgController() {
         super();
-        sensorStateMap = new HashMap<Integer, SensorState>();
+        this.logger = LoggerFactory.getLogger(this.getClass());
+        sensorStateMap = new HashMap<>();
     }
 
     public void init(String icebergId, Integer numberOfSensors) {
 
-        this.icebergId = icebergId;
+        this.logger.debug("Init IceburgController: icebergId: {}, number of sensors: {}", icebergId, numberOfSensors);
 
         this.eventHub = new RabbitMQEventHub();
         this.eventHub.setRabbitMQUrl(RABBITMQ_URL);
         this.eventHub.setExchangeName(EVENTS_EXCHANGE);
-        this.eventHub.init(this.icebergId);
+        this.eventHub.init(icebergId);
 
         for (int i = 1; i < (numberOfSensors + 1); i++) {
-            sensorStateMap.put(i, new UntouchedState(this.icebergId, i));
+            sensorStateMap.put(i, new UntouchedState(icebergId, i));
         }
 
         this.eventHub.addListener(new EventListener() {
@@ -56,6 +58,7 @@ public class IceburgController {
             }
 
             public void handleEvent(final Event e) {
+                IceburgController.this.logger.debug("Handle event {}", e);
                 IceburgController.this.handleEvent((TouchEvent) e);
             }
         });
@@ -68,6 +71,8 @@ public class IceburgController {
         if (state != null) {
             SensorState newState = state.handleEvent(event);
             this.sensorStateMap.put(event.getSensorNumber(), newState);
+            this.logger.debug("State {} handling event {} to new state {}", state, event, newState);
+
             newState.performAction(this.eventHub);
         }
     }

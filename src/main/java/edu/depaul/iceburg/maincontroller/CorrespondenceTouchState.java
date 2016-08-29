@@ -5,10 +5,13 @@ import edu.depaul.iceburg.events.EventHub;
 import edu.depaul.iceburg.events.MultiTouchEvent;
 import edu.depaul.iceburg.events.TouchEvent;
 
+import lombok.ToString;
+
 
 /**
  *
  */
+@ToString
 public class CorrespondenceTouchState extends AbstractState {
 
     private String otherIceburgId;

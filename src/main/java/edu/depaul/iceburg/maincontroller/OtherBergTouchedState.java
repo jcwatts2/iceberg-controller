@@ -3,11 +3,14 @@ package edu.depaul.iceburg.maincontroller;
 
 import edu.depaul.iceburg.events.TouchEvent;
 
+import lombok.ToString;
+
 
 /**
  *
  *
  */
+@ToString
 public class OtherBergTouchedState extends TouchedState {
 
     private String otherIcebergId;

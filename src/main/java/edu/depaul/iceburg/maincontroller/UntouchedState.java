@@ -3,10 +3,13 @@ package edu.depaul.iceburg.maincontroller;
 
 import edu.depaul.iceburg.events.TouchEvent;
 
+import lombok.ToString;
+
 
 /**
  * Created by jwatts on 8/27/16.
  */
+@ToString
 public class UntouchedState extends AbstractState {
 
     public UntouchedState(String iceburgId, Integer sensorNumber) {
