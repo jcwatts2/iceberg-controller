@@ -1,7 +1,10 @@
 package iceburg.maincontroller;
 
 
+import iceburg.events.EventHub;
 import iceburg.events.TouchEvent;
+
+import iceburg.maincontroller.Configuration.SensorToLight;
 
 import lombok.ToString;
 
@@ -13,8 +16,8 @@ import lombok.ToString;
 @ToString
 public class TouchedState extends AbstractState {
 
-    public TouchedState(String iceburgId, Integer sensorNumber ) {
-        super(iceburgId, sensorNumber);
+    public TouchedState(String iceburgId, SensorToLight sensorToLight) {
+        super(iceburgId, sensorToLight);
     }
 
     public SensorState handleEvent(final TouchEvent event) {
@@ -30,11 +33,18 @@ public class TouchedState extends AbstractState {
         }
     }
 
+    public void performAction(EventHub eventHub, IceburgState iceburgState, LightController lightController,
+            SoundController soundController) {
+
+        lightController.changeLightToTouched(this.getLightId());
+        soundController.handleTouch(this.getSensorNumber());
+    }
+
     private SensorState handleUnTouch(final TouchEvent event) {
 
         if (this.getIceburgId().equals(event.getIcebergId())) {
 
-            return new UntouchedState(this.getIceburgId(), this.getSensorNumber());
+            return new UntouchedState(this.getIceburgId(), this.getSensorToLight());
 
         } else {
             return this;
@@ -46,8 +56,7 @@ public class TouchedState extends AbstractState {
         if (this.getIceburgId().equals(event.getIcebergId())) {
             return this;
         } else {
-            return new CorrespondenceTouchState(this.getIceburgId(), this.getSensorNumber(),
-                    event.getIcebergId());
+            return new CorrespondenceTouchState(this.getIceburgId(), this.getSensorToLight(), event.getIcebergId());
         }
     }
 }

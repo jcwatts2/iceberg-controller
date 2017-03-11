@@ -3,6 +3,7 @@ package iceburg.maincontroller;
 
 import iceburg.events.TouchEvent;
 
+import iceburg.maincontroller.Configuration.SensorToLight;
 import lombok.ToString;
 
 
@@ -15,10 +16,10 @@ public class OtherBergTouchedState extends TouchedState {
 
     private String otherIcebergId;
 
-    public OtherBergTouchedState(String localIcebergId, Integer sensorNumber,
+    public OtherBergTouchedState(String localIcebergId, SensorToLight sensorToLight,
                                  String icebergId) {
 
-        super(localIcebergId, sensorNumber);
+        super(localIcebergId, sensorToLight);
         this.otherIcebergId = icebergId;
     }
 
@@ -38,13 +39,10 @@ public class OtherBergTouchedState extends TouchedState {
     public SensorState handleTouched(TouchEvent event) {
 
         if (this.getIceburgId().equals(event.getIcebergId())) {
-
-            return new CorrespondenceTouchState(this.getIceburgId(), this.getSensorNumber(),
-                    this.otherIcebergId);
+            return new CorrespondenceTouchState(this.getIceburgId(), this.getSensorToLight(), this.otherIcebergId);
 
         } else {
-            return new OtherBergTouchedState(this.getIceburgId(), this.getSensorNumber(),
-                    event.getIcebergId());
+            return new OtherBergTouchedState(this.getIceburgId(), this.getSensorToLight(), event.getIcebergId());
         }
     }
 
@@ -56,7 +54,7 @@ public class OtherBergTouchedState extends TouchedState {
 
         } else if (this.otherIcebergId.equals(event.getIcebergId())) {
 
-            return new UntouchedState(this.getIceburgId(), this.getSensorNumber());
+            return new UntouchedState(this.getIceburgId(), this.getSensorToLight());
 
         } else {
 

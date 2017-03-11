@@ -2,8 +2,9 @@ package iceburg.maincontroller;
 
 
 import iceburg.events.EventHub;
-import iceburg.events.MultiTouchEvent;
 import iceburg.events.TouchEvent;
+
+import iceburg.maincontroller.Configuration.SensorToLight;
 
 import lombok.ToString;
 
@@ -16,14 +17,10 @@ public class CorrespondenceTouchState extends AbstractState {
 
     private String otherIceburgId;
 
-    private Object lock;
+    public CorrespondenceTouchState(String icebergId, SensorToLight sensorToLight, String otherIceburgId) {
 
-    public CorrespondenceTouchState(String icebergId, Integer sensorNumber,
-                                    String otherIcebugId) {
-
-        super(icebergId, sensorNumber);
-        this.otherIceburgId = otherIcebugId;
-        this.lock = new Object();
+        super(icebergId, sensorToLight);
+        this.otherIceburgId = otherIceburgId;
     }
 
     public SensorState handleEvent(TouchEvent event) {
@@ -39,29 +36,20 @@ public class CorrespondenceTouchState extends AbstractState {
         }
     }
 
-    public void performAction(EventHub eventHub) {
-
-        synchronized (this.lock) {
-
-            MultiTouchEvent event = new MultiTouchEvent(this.getIceburgId(),
-                    this.getSensorNumber(), true, System.currentTimeMillis());
-
-            for (int i = 0; i < 3; i++) {
-                eventHub.postEvent(event);
-            }
-        }
-    }
-
     public SensorState handleUntouched(TouchEvent event) {
 
         if (this.getIceburgId().equals(event.getIcebergId())) {
-
-            return new OtherBergTouchedState(this.getIceburgId(), this.getSensorNumber(),
-                    this.otherIceburgId);
+            return new OtherBergTouchedState(this.getIceburgId(), this.getSensorToLight(), this.otherIceburgId);
 
         } else {
-
-            return new TouchedState(this.getIceburgId(), this.getSensorNumber());
+            return new TouchedState(this.getIceburgId(), this.getSensorToLight());
         }
+    }
+
+    public void performAction(EventHub eventHub, IceburgState iceburgState, LightController lightController,
+                              SoundController soundController) {
+
+        lightController.changeLightToCorrespondingTouch(this.getLightId());
+        soundController.handleCorrespondingTouch(this.getSensorNumber());
     }
 }

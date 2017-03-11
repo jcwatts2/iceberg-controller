@@ -1,7 +1,10 @@
 package iceburg.maincontroller;
 
 
+import iceburg.events.EventHub;
 import iceburg.events.TouchEvent;
+
+import iceburg.maincontroller.Configuration.SensorToLight;
 
 import lombok.ToString;
 
@@ -12,9 +15,15 @@ import lombok.ToString;
 @ToString
 public class UntouchedState extends AbstractState {
 
-    public UntouchedState(String iceburgId, Integer sensorNumber) {
+    public UntouchedState(String iceburgId, SensorToLight sensorToLight) {
+        super(iceburgId, sensorToLight);
+    }
 
-        super(iceburgId, sensorNumber);
+    public void performAction(EventHub eventHub, IceburgState iceburgState, LightController lightController,
+            SoundController soundController) {
+
+        iceburgState.changeLight(this.getLightId(), lightController);
+        soundController.handleUntouched(this.getSensorNumber());
     }
 
     public SensorState handleEvent(final TouchEvent event) {
@@ -34,11 +43,11 @@ public class UntouchedState extends AbstractState {
 
         if (this.getIceburgId().equals(event.getIcebergId())) {
 
-            return new TouchedState(this.getIceburgId(), this.getSensorNumber());
+            return new TouchedState(this.getIceburgId(), this.getSensorToLight());
 
         } else {
 
-            return new OtherBergTouchedState(this.getIceburgId(), this.getSensorNumber(),
+            return new OtherBergTouchedState(this.getIceburgId(), this.getSensorToLight(),
                     event.getIcebergId());
         }
     }
