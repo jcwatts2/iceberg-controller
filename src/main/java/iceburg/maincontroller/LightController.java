@@ -133,6 +133,7 @@ public class LightController {
 
         try {
             LightController.this.outputStream.write(LightController.this.getCommandForLight(light, command).getBytes());
+            LightController.this.outputStream.flush();
 
         } catch (IOException ex) {
             this.logger.error("Unable to post all light command {} to light {}", command, light, ex);

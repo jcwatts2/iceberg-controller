@@ -154,7 +154,7 @@ public class IceburgController {
 
         IceburgController controller = new IceburgController();
 
-        if (args.length != 1) {
+        if (args.length < 1) {
             controller.printUsage();
             return;
         }
@@ -162,7 +162,7 @@ public class IceburgController {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
         try {
-            Configuration configuration = mapper.readValue(new java.io.File(args[1]), Configuration.class);
+            Configuration configuration = mapper.readValue(new java.io.File(args[0]), Configuration.class);
             controller.init(configuration);
 
         } catch (IOException e) {
