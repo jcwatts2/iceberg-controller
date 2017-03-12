@@ -1,0 +1,15 @@
+---
+iceburgId: "1"
+sensorsToLights:
+- lightId: 2
+  sensorId: 1
+- lightId: 5
+  sensorId: 2
+- lightId: 4
+  sensorId: 3
+serialPort:
+baudRate:
+allSensorsIndicator:
+oscHost:
+oscPort:
+finalSleep:

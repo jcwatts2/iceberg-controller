@@ -43,6 +43,8 @@ public class LightController {
 
     public void init() {
 
+        this.logger.debug("Setting up LightController");
+
         if (this.configuration.getSerialPort() == null) {
             throw new IllegalArgumentException("Serial port must be specified.");
         }
@@ -74,12 +76,18 @@ public class LightController {
             }
 
             if(commPort instanceof SerialPort) {
+
                 try {
+
+                    this.logger.debug("Serial Port setup initialized");
+
                     SerialPort serialPort = (SerialPort)commPort;
                     serialPort.setSerialPortParams(this.configuration.getBaudRate(), SerialPort.DATABITS_8,
                                 SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
                     this.outputStream = serialPort.getOutputStream();
+
+                    this.logger.debug("Serial Port initialization complete");
 
                 } catch (UnsupportedCommOperationException ex) {
                     throw new InitializationException("Unsupported comm exception. Config: " + this.configuration, ex);
