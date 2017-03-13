@@ -28,7 +28,7 @@ public class LightController {
 
     private static final Integer CORRESPONDING_TOUCH = 3;
 
-    private static final Integer FINALE = 3;
+    private static final Integer FINALE = 4;
 
     private Configuration configuration;
 

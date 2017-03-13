@@ -125,6 +125,8 @@ public class IceburgController {
 
     private void runFinale() {
 
+	logger.info("Running finale");
+
         this.lightController.finalAct();
 
         try {
@@ -133,7 +135,17 @@ public class IceburgController {
         } catch (InterruptedException ex) {
             this.logger.error("Finale sleep interrupted", ex);
         }
+
+	logger.info("Finale run resetting all to idle.");
         this.lightController.changeAllToIdle();
+
+        for (int i = 0; i < configuration.getSensorsToLights().size(); i++) {
+
+            SensorToLight sensorToLight = configuration.getSensorsToLights().get(i);
+
+            sensorStateMap.put(sensorToLight.getSensorId(),
+                    new UntouchedState(configuration.getIceburgId(), sensorToLight));
+        }
     }
 
     private boolean allCorrespondingTouch() {
