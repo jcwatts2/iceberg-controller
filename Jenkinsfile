@@ -24,7 +24,7 @@ node {
 
             stage ("Verify") {
 
-                if (params.RUN_INT_TEST == "Y" && params.INT_TEST_JOB != "") {
+                if (params.RUN_INT_TEST && params.INT_TEST_JOB != "") {
                     sh "echo Running integration test" 
 
                 } else {
