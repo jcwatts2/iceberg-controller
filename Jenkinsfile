@@ -1,5 +1,10 @@
 // -*- mode: groovy -*-
 node {
+    
+    parameters {
+        string(name: 'INT_TEST_JOB', defaultValue: "", description: 'Path to the integration test project (wsneo)')
+        string(name: 'RUN_INT_TEST', defaultValue: true, description: 'Run the integration tests?')
+    }
 
     try {
         
@@ -15,11 +20,11 @@ node {
 
             stage ("Verify") {
 
-                if (params.INT_TEST == "Y" && params.INT_TEST_JOB != "") {
+                if (params.RUN_INT_TEST == "Y" && params.INT_TEST_JOB != "") {
                     sh "echo Running integration test" 
 
                 } else {
-                    sh "echo Integration test was NOT run INT_TEST=${params.INT_TEST}, INT_TEST_JOB=${params.INT_TEST_JOB}"
+                    sh "echo Integration test was NOT run RUN_INT_TEST=${params.RUN_INT_TEST}, INT_TEST_JOB=${params.INT_TEST_JOB}"
                 }
             }
         }
