@@ -26,6 +26,7 @@ node {
 
                 if (params.RUN_INT_TEST && params.INT_TEST_JOB != "") {
                     sh "echo Running integration test" 
+                    build "${params.INT_TEST_JOB}"
 
                 } else {
                     sh "echo Integration test was NOT run RUN_INT_TEST=${params.RUN_INT_TEST}, INT_TEST_JOB=${params.INT_TEST_JOB}"
