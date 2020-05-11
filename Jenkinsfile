@@ -1,11 +1,11 @@
 // -*- mode: groovy -*-
 
-parameters {
-    string(name: 'INT_TEST_JOB', defaultValue: "", description: 'Path to the integration test project (wsneo)')
-    string(name: 'RUN_INT_TEST', defaultValue: true, description: 'Run the integration tests?')
-}
-
 node {
+
+    properties([parameters({
+        string(name: 'INT_TEST_JOB', defaultValue: "", description: 'Path to the integration test project (wsneo)')
+        string(name: 'RUN_INT_TEST', defaultValue: true, description: 'Run the integration tests?')
+    })])
     
 
     try {
