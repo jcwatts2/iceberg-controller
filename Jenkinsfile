@@ -3,8 +3,6 @@ node {
 
     try {
         
-        notify('warning', "STARTED")
-
         stage ("Checkout") {
             checkout scm
         }
