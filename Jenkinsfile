@@ -19,7 +19,7 @@ node {
                     sh "echo Running integration test" 
 
                 } else {
-                    sh "echo Integration test was NOT run (INT_TEST=${params.INT_TEST}, INT_TEST_JOB=${params.INT_TEST_JOB})
+                    sh "echo Integration test was NOT run (INT_TEST=${params.INT_TEST}, INT_TEST_JOB=${params.INT_TEST_JOB})"
                 }
             }
         }
