@@ -5,7 +5,7 @@ node {
     
     properties([ 
         parameters([
-            string(name: 'INT_TEST_JOB', defaultValue: "", description: 'Path to the integration test project (wsneo)')
+            string(name: 'INT_TEST_JOB', defaultValue: "", description: 'Path to the integration test project (wsneo)'),
             booleanParam(name: 'RUN_INT_TEST', defaultValue: true, description: 'Run the integration tests?')
         ])
     ])
