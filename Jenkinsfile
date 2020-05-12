@@ -37,7 +37,7 @@ node {
 
     } catch (e) {
         currentBuild.result = "FAILED"
-        sh "echo ${e.getMessage()}"
+        sh "echo ${e.toString()}"
         sendFailEmail()
         throw e
     }
