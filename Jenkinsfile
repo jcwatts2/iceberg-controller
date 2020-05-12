@@ -55,7 +55,7 @@ def sendFailEmail(String failureReason) {
 
     mailBody = "<p>Build job #${env.BUILD_NUMBER} of ${env.JOB_NAME} failed.</p>" +
                 "<p>Git Commit Hash: ${commitHash}</p>" + "<p>Commit Subject: ${commitSubject}<p>" + 
-                "<p><a href url=\"${env.BUILD_URL}\"></a>";
+                "<p><a href=\"${env.BUILD_URL}\"></a>";
 
     mail(to: "${lastCommitAuthor}", 
         from: 'no-reply@imanage.com', 
