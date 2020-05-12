@@ -51,9 +51,7 @@ def sendFailEmail() {
     sh "echo Build Fail ${lastCommitAuthor} \'${commitHash}\' \'${commitSubject}\'"
 
     mail(to: "${lastCommitAuthor}', from: 'no-reply@imanage.com', subject:
-            "Failed Build ${env.JOB_NAME} ${env.BUILD_NUMBER}", body: "Build
-            job ${env.JOB_NAME} ${env.BUILD_NUMBER} failed. \n\n Git Commit
-            Hash: ${commitHash} \n Commit Subject: ${commitSubject}")
+            "Failed Build ${env.JOB_NAME} ${env.BUILD_NUMBER}", body: "Build job ${env.JOB_NAME} ${env.BUILD_NUMBER} failed. \n\n Git Commit Hash: ${commitHash} \n Commit Subject: ${commitSubject}")
      
 }
 
