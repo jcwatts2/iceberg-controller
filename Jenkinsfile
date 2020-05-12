@@ -61,5 +61,5 @@ def sendFailEmail(String failureReason) {
         from: 'no-reply@imanage.com', 
         subject: "Failed Build for Master Branch (${failureReason})",
         body: mailBody,
-        mimeType:"text/html")
+        mimeType: "text/html")
 }
