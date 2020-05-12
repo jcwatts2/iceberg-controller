@@ -49,12 +49,11 @@ node {
 
 def sendFailEmail(String failureReason) {
 
+    currentBuild.result = "FAILED"
+
     lastCommitAuthor = sh(script: 'git show -s --format=\'%ce\'', returnStdout: true).trim()
     commitHash = sh(script: 'git show -s --format=\'%H\'', returnStdout: true).trim()
     commitSubject = sh(script: 'git show -s --format=\'%s\'', returnStdout: true).trim()
-
-    mailBody = "<html><body><p>Build job <a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER} of ${env.JOB_NAME}</a> failed.</p>" +
-                "<p>Git Commit Hash: ${commitHash}</p>" + "<p>Commit Subject: ${commitSubject}<p></body></html>"; 
 
     emailext(to: "${lastCommitAuthor}", 
         from: 'no-reply@imanage.com', 
