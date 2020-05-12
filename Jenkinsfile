@@ -53,11 +53,13 @@ def sendFailEmail(String failureReason) {
     commitHash = sh(script: 'git show -s --format=\'%H\'', returnStdout: true).trim()
     commitSubject = sh(script: 'git show -s --format=\'%s\'', returnStdout: true).trim()
 
+    mailBody = "<p>Build job #${env.BUILD_NUMBER} of ${env.JOB_NAME} failed.</p>" +
+                "<p>Git Commit Hash: ${commitHash}</p>" + "<p>Commit Subject: ${commitSubject}<p>" + 
+                "<p><a href url=\"${env.BUILD_URL}\"></a>";
+
     mail(to: "${lastCommitAuthor}", 
         from: 'no-reply@imanage.com', 
         subject: "Failed Build for Master Branch (${failureReason})",
-        body: "<p>Build job #${env.BUILD_NUMBER} of ${env.JOB_NAME} failed.</p>" +
-                <p>Git Commit Hash: ${commitHash}</p>" + "<p>Commit Subject: ${commitSubject}<p>" + 
-                "<p><a href url=\"${env.BUILD_URL}\"></a>",
+        body: mailBody,
         mimeType:"text/html")
 }
