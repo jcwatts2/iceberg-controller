@@ -44,9 +44,9 @@ node {
 
 def sendFailEmail() {
 
-    lastCommitAuthor = sh(script: 'git show --format=\'%ce\'', returnStdout: true).trim()
-    commitHash = sh(script: 'git show --format=\'%H\'', returnStdout: true).trim()
-    commitSubject = sh(script: 'git show --format=\'%s\'', returnStdout: true).trim()
+    lastCommitAuthor = sh(script: 'git show -s --format=\'%ce\'', returnStdout: true).trim()
+    commitHash = sh(script: 'git show -s --format=\'%H\'', returnStdout: true).trim()
+    commitSubject = sh(script: 'git show -s --format=\'%s\'', returnStdout: true).trim()
 
     sh "echo Build Fail ${lastCommitAuthor} \'${commitHash}\' \'${commitSubject}\'"
      
