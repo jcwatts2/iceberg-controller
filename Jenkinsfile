@@ -53,7 +53,7 @@ def sendFailEmail() {
     mail(to: "${lastCommitAuthor}", 
         from: 'no-reply@imanage.com', 
         subject: "Failed Build ${env.JOB_NAME} ${env.BUILD_NUMBER}", 
-        body: "Build job ${env.JOB_NAME} ${env.BUILD_NUMBER} failed. \n\n Git Commit Hash: ${commitHash} \n Commit Subject: ${commitSubject}")
+        body: "Build job #${env.BUILD_NUMBER} of ${env.JOB_NAME} failed.\n\nGit Commit Hash: ${commitHash}\n\nCommit Subject: ${commitSubject}")
      
 }
 
