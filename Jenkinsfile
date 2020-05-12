@@ -53,13 +53,9 @@ def sendFailEmail(String failureReason) {
     commitHash = sh(script: 'git show -s --format=\'%H\'', returnStdout: true).trim()
     commitSubject = sh(script: 'git show -s --format=\'%s\'', returnStdout: true).trim()
 
-    sh "echo Build Fail ${lastCommitAuthor} \'${commitHash}\' \'${commitSubject}\'"
-
     mail(to: "${lastCommitAuthor}", 
         from: 'no-reply@imanage.com', 
         subject: "Failed Build ${env.JOB_NAME} ${env.BUILD_NUMBER} - ${failureReason}",
         body: "Build job #${env.BUILD_NUMBER} of ${env.JOB_NAME} failed.\n\nGit Commit Hash: ${commitHash}\n\nCommit Subject: ${commitSubject}")
      
 }
-
-
