@@ -5,7 +5,7 @@ node {
     
     properties([ 
         parameters([
-            string(name: 'INT_TEST_JOB', defaultValue: "jcwatts-github/iceburg-events/master", description: 'Path to the integration test project (wsneo)'),
+            string(name: 'INT_TEST_JOB', defaultValue: "jcwatts2-github/iceburg-events/master", description: 'Path to the integration test project (wsneo)'),
             booleanParam(name: 'RUN_INT_TEST', defaultValue: true, description: 'Run the integration tests?')
         ])
     ])
@@ -20,6 +20,7 @@ node {
 
             stage ("Build") {
                 sh "echo Building ${env.JOB_NAME}"
+                sh "mvn"
             }
 
             stage ("Verify") {
