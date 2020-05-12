@@ -27,23 +27,27 @@ node {
 
                 if (params.RUN_INT_TEST && params.INT_TEST_JOB != "") {
                     sh "echo Running integration test for $env.JOB_NAME $env.BUILD_NUMBER"
-                    build job: "${params.INT_TEST_JOB}"
+
+                    try {
+                        build job: "${params.INT_TEST_JOB}"
+                    } catch(e) {
+                        sendFailEmail("Integration Tests Failed")
+                        throw e
+                    }
 
                 } else {
                     sh "echo Integration test was NOT run RUN_INT_TEST=${params.RUN_INT_TEST}, INT_TEST_JOB=${params.INT_TEST_JOB}"
                 }
             }
         }
-
     } catch (e) {
         currentBuild.result = "FAILED"
         sh "echo ${e.getCause().toString()}"
-        sendFailEmail()
         throw e
     }
 }
 
-def sendFailEmail() {
+def sendFailEmail(String failureReason) {
 
     lastCommitAuthor = sh(script: 'git show -s --format=\'%ce\'', returnStdout: true).trim()
     commitHash = sh(script: 'git show -s --format=\'%H\'', returnStdout: true).trim()
@@ -53,7 +57,7 @@ def sendFailEmail() {
 
     mail(to: "${lastCommitAuthor}", 
         from: 'no-reply@imanage.com', 
-        subject: "Failed Build ${env.JOB_NAME} ${env.BUILD_NUMBER}", 
+        subject: "Failed Build ${env.JOB_NAME} ${env.BUILD_NUMBER} - ${failureReason}",
         body: "Build job #${env.BUILD_NUMBER} of ${env.JOB_NAME} failed.\n\nGit Commit Hash: ${commitHash}\n\nCommit Subject: ${commitSubject}")
      
 }
