@@ -26,7 +26,7 @@ node {
             stage ("Verify") {
 
                 if (params.RUN_INT_TEST && params.INT_TEST_JOB != "") {
-                    sh "echo Running integration test for $env.JOB_NAME $env.BUILD_NUMBER"
+                    echo "Running integration test for ${env.JOB_NAME} ${env.BUILD_NUMBER}"
 
                     try {
                         build job: "${params.INT_TEST_JOB}"
@@ -37,13 +37,13 @@ node {
                     }
 
                 } else {
-                    sh "echo Integration test was NOT run RUN_INT_TEST=${params.RUN_INT_TEST}, INT_TEST_JOB=${params.INT_TEST_JOB}"
+                    echo "Integration test was NOT run RUN_INT_TEST=${params.RUN_INT_TEST}, INT_TEST_JOB=${params.INT_TEST_JOB}"
                 }
             }
         }
     } catch (e) {
         currentBuild.result = "FAILED"
-        sh "echo ${e.getCause().toString()}"
+        echo "Error running build ${e.getCause().toString()}"
         throw e
     }
 }
