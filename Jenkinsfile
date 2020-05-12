@@ -59,5 +59,5 @@ def sendFailEmail(String failureReason) {
     emailext(to: "${lastCommitAuthor}", 
         from: 'no-reply@imanage.com', 
         subject: "Failed Build for Master Branch (${failureReason})",
-        mimeType:'text/html', body: "${JELLY_SCRIPT, template=html}")
+        mimeType:'text/html', body: '${SCRIPT, template="groovy-html.template"}')
 }
