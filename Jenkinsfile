@@ -58,5 +58,6 @@ def sendFailEmail(String failureReason) {
 
     emailext(to: "${lastCommitAuthor}", 
         from: 'no-reply@imanage.com', 
-        subject: "Failed Build for Master Branch (${failureReason})")
+        subject: "Failed Build for Master Branch (${failureReason})",
+        mimeType:'text/html' body: mailBody)
 }
