@@ -31,6 +31,7 @@ node {
                     try {
                         build job: "${params.INT_TEST_JOB}"
                     } catch(e) {
+                        echo "Integration test failure. Integration test job: ${params.INT_TEST_JOB}"
                         sendFailEmail("Integration Tests Failed")
                         throw e
                     }
@@ -52,11 +53,10 @@ def sendFailEmail(String failureReason) {
     lastCommitAuthor = sh(script: 'git show -s --format=\'%ce\'', returnStdout: true).trim()
     commitHash = sh(script: 'git show -s --format=\'%H\'', returnStdout: true).trim()
     commitSubject = sh(script: 'git show -s --format=\'%s\'', returnStdout: true).trim()
-    branchName = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
 
     mail(to: "${lastCommitAuthor}", 
         from: 'no-reply@imanage.com', 
-        subject: "Failed Build for Branch ${branchName} (${env.JOB_NAME} - ${failureReason})",
+        subject: "Failed Build for Master Branch (${failureReason})",
         body: "Build job #${env.BUILD_NUMBER} of ${env.JOB_NAME} failed.\n\nGit Commit Hash: ${commitHash}\n\nCommit Subject: ${commitSubject}")
      
 }
