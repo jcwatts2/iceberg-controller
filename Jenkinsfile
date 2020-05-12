@@ -20,7 +20,7 @@ node {
 
             stage ("Build") {
                 sh "echo Building ${env.JOB_NAME}"
-                sh "mvn clean package"
+                // sh "mvn clean package"
             }
 
             stage ("Verify") {
