@@ -25,7 +25,7 @@ node {
             stage ("Verify") {
 
                 if (params.RUN_INT_TEST && params.INT_TEST_JOB != "") {
-                    sh "echo Running integration test" 
+                    sh "echo Running integration test for $env.JOB_NAME $env.BUILD_NUMBER"
                     build job: "${params.INT_TEST_JOB}"
 
                 } else {
