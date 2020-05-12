@@ -1,6 +1,5 @@
 // -*- mode: groovy -*-
 
-
 node {
     
     properties([ 
