@@ -28,13 +28,11 @@ node {
                     echo "Running integration test for ${env.JOB_NAME}"
 
                     try {
-                        build job: "${params.INT_TEST_JOB}"
+                        build(job: "${params.INT_TEST_JOB}", propagate: false)
                     } catch(e) {
                         echo "Integration test failure. Integration test job: ${params.INT_TEST_JOB}"
-                        sendFailEmail("Integration Tests Failed")
-                        throw e
+                        // sendFailEmail("Integration Tests Failed")
                     }
-
                 } else {
                     echo "Integration test was NOT run RUN_INT_TEST=${params.RUN_INT_TEST}, INT_TEST_JOB=${params.INT_TEST_JOB}"
                 }
